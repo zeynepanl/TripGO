@@ -1,7 +1,13 @@
 import React from 'react';
-import Login from './src/screens/Login';
 import './global.css';
+import AppNavigator from './src/navigation/AppNavigator';
+import { NavigationContainer } from '@react-navigation/native';
+
 
 export default function App() {
-  return <Login />;
+  return (
+    <NavigationContainer>
+      <AppNavigator />
+    </NavigationContainer>
+  );
 }
