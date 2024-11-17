@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import ForgotPassword from '../screens/ForgotPassword';
+import VerificationCode from '../screens/VerificationCode';
 
 
 const Stack = createStackNavigator();
@@ -25,6 +26,12 @@ const AppNavigator = () => (
        component={ForgotPassword}
        options={{ headerShown: false }} 
         />
+      <Stack.Screen 
+       name="VerificationCode"
+       component={VerificationCode}
+       options={{ headerShown: false }}
+        />
+
 
       
     </Stack.Navigator>
