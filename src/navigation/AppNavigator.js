@@ -5,6 +5,8 @@ import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import ForgotPassword from '../screens/ForgotPassword';
 import VerificationCode from '../screens/VerificationCode';
+import LocationServices from '../screens/LocationServices';
+
 
 
 const Stack = createStackNavigator();
@@ -31,6 +33,13 @@ const AppNavigator = () => (
        component={VerificationCode}
        options={{ headerShown: false }}
         />
+
+      <Stack.Screen
+       name="LocationServices"
+       component={LocationServices}
+       options={{ headerShown: false }}
+        />
+
 
 
       
