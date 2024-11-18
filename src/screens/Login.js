@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-nat
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { loginWithEmailAndPassword } from "../services/authService";
 
 const Login = () => {
   const navigation = useNavigation();
@@ -17,13 +18,11 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      if (email === 'test@test.com' && password === '123456') {
-        navigation.navigate('LocationServices'); // Başarılı girişten sonra yönlendirme
-      } else {
-        Alert.alert('Error', 'Invalid email or password'); // Hata durumunda mesaj gösterme
-      }
+      const user = await loginWithEmailAndPassword(email, password);
+      console.log("User logged in:", user);
+      navigation.navigate("LocationServices"); // Başarılı girişten sonra yönlendirme
     } catch (error) {
-      Alert.alert('Error', error.message); // Hata durumunda mesaj gösterme
+      Alert.alert("Error", error.message); // Hata durumunda mesaj gösterme
     }
   };
 

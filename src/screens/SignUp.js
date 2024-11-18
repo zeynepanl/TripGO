@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { registerWithEmailAndPassword } from "../services/authService";
 
 const SignUp = () => {
   const navigation = useNavigation();
@@ -16,21 +17,22 @@ const SignUp = () => {
     setIsPasswordVisible(!isPasswordVisible); // Görünürlüğü tersine çevir
   };
 
-  const handleSignUp = () => {
-    if (!name || !email || !password) {
-      Alert.alert("Error", "Please fill out all the fields.");
+  const handleSignUp = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please fill in all fields");
       return;
     }
-
-    if (!isChecked) {
-      Alert.alert("Error", "Please agree to the Terms and Conditions.");
-      return;
+  
+    try {
+      await registerWithEmailAndPassword(email, password);
+      Alert.alert("Success", "Account created successfully!");
+      navigation.navigate("Login");
+    } catch (error) {
+      Alert.alert("Error", error.message);
     }
-
-    // Simulating a sign-up process
-    Alert.alert("Success", "Account created successfully!");
-    navigation.navigate("Login"); // Navigate to Login screen after successful sign-up
   };
+  
+  
 
   return (
     <View className="flex-1 bg-[#DAEAE2] items-center justify-end px-5 pb-10">
