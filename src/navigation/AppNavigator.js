@@ -6,6 +6,9 @@ import SignUp from '../screens/SignUp';
 import ForgotPassword from '../screens/ForgotPassword';
 import VerificationCode from '../screens/VerificationCode';
 import LocationServices from '../screens/LocationServices';
+import Home from '../screens/Home';
+import Discover from "../screens/Discover";
+
 
 
 
@@ -39,6 +42,17 @@ const AppNavigator = () => (
        component={LocationServices}
        options={{ headerShown: false }}
         />
+      <Stack.Screen
+       name="Home"
+       component={Home}
+       options={{ headerShown: false }}
+        />
+      <Stack.Screen
+       name="Discover"
+       component={Discover}
+       options={{ headerShown: false }}
+        />
+      
 
 
 
