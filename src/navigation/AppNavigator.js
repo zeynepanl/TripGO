@@ -8,6 +8,16 @@ import VerificationCode from '../screens/VerificationCode';
 import LocationServices from '../screens/LocationServices';
 import Home from '../screens/Home';
 import Discover from "../screens/Discover";
+import CityDetails from "../screens/CityDetails";
+import Map from "../screens/Map";
+import Notes from "../screens/Notes";
+import Profile from "../screens/Profile";
+import FoodAndDrink from "../screens/FoodAndDrink";
+import Hotels from "../screens/Hotels";
+import Museum from "../screens/Museum";
+import Nature from "../screens/Nature";
+import Activities from "../screens/Activities";
+import Weather from "../screens/Weather";
 
 
 
@@ -52,7 +62,63 @@ const AppNavigator = () => (
        component={Discover}
        options={{ headerShown: false }}
         />
-      
+
+      <Stack.Screen
+       name="CityDetails"
+       component={CityDetails}
+       options={{ headerShown: false }}
+        /> 
+      <Stack.Screen
+       name="Map"
+       component={Map}
+       options={{ headerShown: false }}
+       />
+      <Stack.Screen
+       name="Notes"
+       component={Notes}
+       options={{ headerShown: false }}
+
+       />
+      <Stack.Screen
+       name="Profile" 
+       component={Profile} 
+       options={{ headerShown: false }}
+       />
+      <Stack.Screen
+       name="FoodAndDrink" 
+       component={FoodAndDrink} 
+       options={{ headerShown: false }}
+       />
+
+      <Stack.Screen
+       name="Hotels" 
+       component={Hotels} 
+       options={{ headerShown: false }}
+       />
+
+      <Stack.Screen
+       name="Museum" 
+       component={Museum} 
+       options={{ headerShown: false }}
+       />
+
+      <Stack.Screen
+       name="Nature" 
+       component={Nature} 
+       options={{ headerShown: false }}
+       />
+
+      <Stack.Screen
+       name="Activities" 
+       component={Activities} 
+       options={{ headerShown: false }}
+       />
+
+      <Stack.Screen
+       name="Weather" 
+       component={Weather} 
+       options={{ headerShown: false }}
+       />
 
 
 

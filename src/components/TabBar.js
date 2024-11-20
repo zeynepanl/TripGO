@@ -5,8 +5,8 @@ import Icon from "react-native-vector-icons/Ionicons";
 const TabBar = ({ navigation }) => {
   const tabs = [
     { name: "Home", icon: "home-outline" },
-    { name: "Explore", icon: "location-outline" },
-    { name: "Schedule", icon: "calendar-outline" },
+    { name: "Map", icon: "location-outline" },
+    { name: "Notes", icon: "calendar-outline" },
     { name: "Profile", icon: "person-outline" },
   ];
 
