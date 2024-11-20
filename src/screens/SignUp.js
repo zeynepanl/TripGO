@@ -18,13 +18,13 @@ const SignUp = () => {
   };
 
   const handleSignUp = async () => {
-    if (!email || !password) {
+    if (!email || !password || !name) {
       Alert.alert("Error", "Please fill in all fields");
       return;
     }
   
     try {
-      await registerWithEmailAndPassword(email, password);
+      await registerWithEmailAndPassword(email, password, name);
       Alert.alert("Success", "Account created successfully!");
       navigation.navigate("Login");
     } catch (error) {

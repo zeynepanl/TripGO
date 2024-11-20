@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import { View, Text, FlatList, Keyboard, Animated } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
 import PopularDestinations from "../components/PopularDestinations";
 import ScheduleCard from "../components/ScheduleCard";
 import TabBar from "../components/TabBar";
@@ -62,7 +61,7 @@ const Home = ({ navigation }) => {
         />
 
         {/* Popüler Destinasyonlar */}
-        <PopularDestinations />
+        <PopularDestinations navigation={navigation} /> 
 
         {/* Takvim */}
         <View className="mt-8">
