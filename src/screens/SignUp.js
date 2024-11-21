@@ -1,3 +1,4 @@
+// src/screens/SignUp.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -7,7 +8,7 @@ import { registerWithEmailAndPassword } from "../services/authService";
 const SignUp = () => {
   const navigation = useNavigation();
 
-  const [name, setName] = useState('');
+  const [name, setName] = useState(''); // Kullanıcı adı state'i
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isChecked, setIsChecked] = useState(false);
@@ -22,17 +23,20 @@ const SignUp = () => {
       Alert.alert("Error", "Please fill in all fields");
       return;
     }
-  
+
+    if (!isChecked) {
+      Alert.alert("Error", "You must agree to the Terms and Conditions");
+      return;
+    }
+
     try {
-      await registerWithEmailAndPassword(email, password, name);
+      await registerWithEmailAndPassword(email, password, name); // `name` parametresini ekledik
       Alert.alert("Success", "Account created successfully!");
       navigation.navigate("Login");
     } catch (error) {
       Alert.alert("Error", error.message);
     }
   };
-  
-  
 
   return (
     <View className="flex-1 bg-[#DAEAE2] items-center justify-end px-5 pb-10">
@@ -106,7 +110,7 @@ const SignUp = () => {
             {isChecked && <Icon name="check" size={16} color="white" />}
           </TouchableOpacity>
           <Text className="ml-3 text-sm text-[#536F61]">
-          By creating an account, you agree to our <Text className="font-bold">Terms and Conditions</Text>.
+            By creating an account, you agree to our <Text className="font-bold">Terms and Conditions</Text>.
           </Text>
         </View>
 

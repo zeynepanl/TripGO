@@ -1,7 +1,8 @@
+// src/screens/Profile.js
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"; // signOut fonksiyonunu ekledik
 import TabBar from "../components/TabBar";
 
 const Profile = ({ navigation }) => {
@@ -27,6 +28,20 @@ const Profile = ({ navigation }) => {
 
     return () => unsubscribe();
   }, [navigation]);
+
+  // Çıkış yapma fonksiyonu
+  const handleSignOut = () => {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        // Oturum başarıyla kapatıldı, giriş ekranına yönlendirin
+        navigation.navigate("Login");
+      })
+      .catch((error) => {
+        // Hata oluştu, kullanıcıya bildirin
+        Alert.alert("Error", error.message);
+      });
+  };
 
   return (
     <View className="flex-1 bg-[#F7F7F7]">
@@ -96,6 +111,17 @@ const Profile = ({ navigation }) => {
         <TouchableOpacity className="bg-white px-4 py-3 rounded-lg shadow-md flex-row items-center">
           <Text className="text-[#536F61] text-base flex-1">Help</Text>
           <Ionicons name="chevron-forward-outline" size={20} color="#536F61" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Çıkış Yap Butonu */}
+      <View className="mt-6 mx-5">
+        <TouchableOpacity
+          onPress={handleSignOut}
+          className="bg-[#DAEAE2] px-4 py-3 rounded-lg shadow-md flex-row items-center justify-center"
+        >
+          <Ionicons name="log-out-outline" size={20} color="#536F61" />
+          <Text className="text-[#536F61] text-base ml-2">Sign Out</Text>
         </TouchableOpacity>
       </View>
 
