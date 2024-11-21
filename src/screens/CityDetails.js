@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import TabBar from "../components/TabBar";
+import destinations from "../data/destinations"; // Şehir verilerini içe aktar
 
 const CityDetails = ({ route, navigation }) => {
   const city = route.params?.city;
@@ -16,6 +17,8 @@ const CityDetails = ({ route, navigation }) => {
       </View>
     );
   }
+
+  const selectedCity = destinations.find((item) => item.id === city.id);
 
   const categories = [
     { id: 1, name: "Food & Drink", icon: "restaurant-outline", screen: "FoodAndDrink" },
@@ -37,12 +40,12 @@ const CityDetails = ({ route, navigation }) => {
       </TouchableOpacity>
 
       {/* Şehir Görseli */}
-      <Image source={city.image} className="w-full h-80 mt-10" resizeMode="cover" />
+      <Image source={selectedCity.image} className="w-full h-80 mt-10" resizeMode="cover" />
 
       {/* Şehir Adı ve Açıklama */}
       <View className="px-5 mt-4">
-        <Text className="text-xl font-semibold text-[#536F61]">{city.name}</Text>
-        <Text className="text-sm text-gray-600 mt-2">{city.description}</Text>
+        <Text className="text-xl font-semibold text-[#536F61]">{selectedCity.name}</Text>
+        <Text className="text-sm text-gray-600 mt-2">{selectedCity.description}</Text>
       </View>
 
       {/* Kategoriler */}
@@ -55,7 +58,9 @@ const CityDetails = ({ route, navigation }) => {
             <View className="items-center justify-center w-1/3 mb-5">
               <TouchableOpacity
                 className="p-4 bg-white rounded-xl shadow-md items-center justify-center w-20 h-20"
-                onPress={() => navigation.navigate(item.screen)}
+                onPress={() =>
+                  navigation.navigate(item.screen, { city: selectedCity })
+                }
               >
                 <Ionicons name={item.icon} size={24} color="#536F61" />
               </TouchableOpacity>
@@ -73,4 +78,4 @@ const CityDetails = ({ route, navigation }) => {
   );
 };
 
-export default CityDetails;
+export default CityDetails;  
