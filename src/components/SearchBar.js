@@ -3,13 +3,14 @@ import React from "react";
 import { View, TextInput, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-const SearchBar = ({ placeholder, autoFocus, onPress }) => {
+const SearchBar = ({ placeholder, autoFocus, onPress, value, onChangeText }) => {
   return (
     <View className="flex-row items-center bg-[#F1F1F1] rounded-full px-4 py-3 shadow-md">
       <Icon name="search-outline" size={20} color="#A0A0A0" />
       <TouchableOpacity
         onPress={onPress} // Navigasyon veya başka bir eylem için onPress
         className="flex-1"
+        disabled={!onPress} // Eğer onPress yoksa TouchableOpacity devre dışı
       >
         <TextInput
           autoFocus={autoFocus} // Discover ekranında klavye açılmasını sağlar
@@ -17,6 +18,8 @@ const SearchBar = ({ placeholder, autoFocus, onPress }) => {
           placeholderTextColor="#A0A0A0"
           className="text-gray-700 text-base"
           editable={!onPress} // Eğer onPress varsa TextInput tıklanamaz
+          value={value}
+          onChangeText={onChangeText}
         />
       </TouchableOpacity>
     </View>
