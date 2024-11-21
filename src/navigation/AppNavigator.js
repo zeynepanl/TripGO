@@ -119,6 +119,7 @@ const AppNavigator = () => (
        component={Weather} 
        options={{ headerShown: false }}
        />
+    
 
 
 
