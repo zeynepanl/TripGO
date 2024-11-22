@@ -94,7 +94,7 @@ const destinations = [
   },
   {
     id: 2,
-    name: "Istanbul, Turkey",
+    name: "İstanbul, Turkey",
     image: require("../../assets/images/istanbul.jpeg"),
     description: "Istanbul is the heart of Turkey...",
     museums: [
