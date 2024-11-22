@@ -2,10 +2,9 @@ import React from "react";
 import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import TabBar from "../components/TabBar";
-import destinations from "../data/destinations"; // Şehir verilerini içe aktar
 
 const CityDetails = ({ route, navigation }) => {
-  const city = route.params?.city;
+  const city = route.params?.city; 
 
   if (!city) {
     return (
@@ -17,8 +16,6 @@ const CityDetails = ({ route, navigation }) => {
       </View>
     );
   }
-
-  const selectedCity = destinations.find((item) => item.id === city.id);
 
   const categories = [
     { id: 1, name: "Food & Drink", icon: "restaurant-outline", screen: "FoodAndDrink" },
@@ -34,18 +31,18 @@ const CityDetails = ({ route, navigation }) => {
       {/* Geri Oku */}
       <TouchableOpacity
         onPress={() => navigation.goBack()}
-        className="absolute top-12 left-5 z-10 bg-white p-1 rounded-full shadow-md"
+        className="absolute top-12 left-5 z-10 bg-white p-3 rounded-full shadow-md"
       >
         <Ionicons name="arrow-back-outline" size={24} color="#536F61" />
       </TouchableOpacity>
 
       {/* Şehir Görseli */}
-      <Image source={selectedCity.image} className="w-full h-80 mt-10" resizeMode="cover" />
+      <Image source={city.image} className="w-full h-80 mt-10" resizeMode="cover" />
 
       {/* Şehir Adı ve Açıklama */}
       <View className="px-5 mt-4">
-        <Text className="text-xl font-semibold text-[#536F61]">{selectedCity.name}</Text>
-        <Text className="text-sm text-gray-600 mt-2">{selectedCity.description}</Text>
+        <Text className="text-xl font-semibold text-[#536F61]">{city.name}</Text>
+        <Text className="text-sm text-gray-600 mt-2">{city.description}</Text>
       </View>
 
       {/* Kategoriler */}
@@ -59,7 +56,10 @@ const CityDetails = ({ route, navigation }) => {
               <TouchableOpacity
                 className="p-4 bg-white rounded-xl shadow-md items-center justify-center w-20 h-20"
                 onPress={() =>
-                  navigation.navigate(item.screen, { city: selectedCity })
+                  navigation.navigate(item.screen, {
+                    city: city,
+                    cityName: city.name, // Hava Durumu ekranına name gönderiliyor
+                  })
                 }
               >
                 <Ionicons name={item.icon} size={24} color="#536F61" />
@@ -78,4 +78,4 @@ const CityDetails = ({ route, navigation }) => {
   );
 };
 
-export default CityDetails;  
+export default CityDetails;

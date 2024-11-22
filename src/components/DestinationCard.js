@@ -4,7 +4,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 const DestinationCard = ({ city, navigation }) => {
   const handlePress = () => {
     if (navigation && city) {
-      navigation.navigate("CityDetails", { city });
+      navigation.navigate("CityDetails", { city }); // Detay ekranına yönlendir
     } else {
       console.warn("Navigation or city data is missing!");
     }
