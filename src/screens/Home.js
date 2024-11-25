@@ -1,17 +1,19 @@
-import React, { useEffect, useRef } from "react";
-import { View, Text, FlatList, Keyboard, Animated } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { View, Text, FlatList, Keyboard, Animated, TouchableOpacity } from "react-native";
 import PopularDestinations from "../components/PopularDestinations";
 import ScheduleCard from "../components/ScheduleCard";
 import TabBar from "../components/TabBar";
 import SearchBar from "../components/SearchBar";
+import ChatbotModal from "../components/ChatbotModal";
 
 const Home = ({ navigation }) => {
   const tabBarOpacity = useRef(new Animated.Value(1)).current;
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () => {
       Animated.timing(tabBarOpacity, {
-        toValue: 0, // TabBar'ı gizle
+        toValue: 0,
         duration: 300,
         useNativeDriver: true,
       }).start();
@@ -19,7 +21,7 @@ const Home = ({ navigation }) => {
 
     const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", () => {
       Animated.timing(tabBarOpacity, {
-        toValue: 1, // TabBar'ı tekrar göster
+        toValue: 1,
         duration: 300,
         useNativeDriver: true,
       }).start();
@@ -57,11 +59,11 @@ const Home = ({ navigation }) => {
         {/* Arama */}
         <SearchBar
           placeholder="Where to go?"
-          onPress={() => navigation.navigate("Discover")} // Discover ekranına yönlendirme
+          onPress={() => navigation.navigate("Discover")}
         />
 
         {/* Popüler Destinasyonlar */}
-        <PopularDestinations navigation={navigation} /> 
+        <PopularDestinations navigation={navigation} />
 
         {/* Takvim */}
         <View className="mt-8">
@@ -79,6 +81,20 @@ const Home = ({ navigation }) => {
           />
         </View>
       </View>
+
+      {/* Chatbot Baloncuğu */}
+      <TouchableOpacity
+        onPress={() => setIsChatbotOpen(true)}
+        className="absolute bottom-20 right-5 bg-[#DAEAE2] p-4 rounded-full shadow-lg"
+      >
+        <Text className="text-white text-lg">💬</Text>
+      </TouchableOpacity>
+
+      {/* Chatbot Modal */}
+      <ChatbotModal
+        isOpen={isChatbotOpen}
+        onRequestClose={() => setIsChatbotOpen(false)}
+      />
 
       {/* TabBar */}
       <Animated.View style={{ opacity: tabBarOpacity }}>
