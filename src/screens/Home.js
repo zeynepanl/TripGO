@@ -4,7 +4,6 @@ import PopularDestinations from "../components/PopularDestinations";
 import ScheduleCard from "../components/ScheduleCard";
 import TabBar from "../components/TabBar";
 import SearchBar from "../components/SearchBar";
-import ChatbotModal from "../components/ChatbotModal";
 
 const Home = ({ navigation }) => {
   const tabBarOpacity = useRef(new Animated.Value(1)).current;
@@ -81,20 +80,6 @@ const Home = ({ navigation }) => {
           />
         </View>
       </View>
-
-      {/* Chatbot Baloncuğu */}
-      <TouchableOpacity
-        onPress={() => setIsChatbotOpen(true)}
-        className="absolute bottom-20 right-5 bg-[#DAEAE2] p-4 rounded-full shadow-lg"
-      >
-        <Text className="text-white text-lg">💬</Text>
-      </TouchableOpacity>
-
-      {/* Chatbot Modal */}
-      <ChatbotModal
-        isOpen={isChatbotOpen}
-        onRequestClose={() => setIsChatbotOpen(false)}
-      />
 
       {/* TabBar */}
       <Animated.View style={{ opacity: tabBarOpacity }}>

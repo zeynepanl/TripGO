@@ -1,16 +1,18 @@
-// src/screens/Profile.js
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"; // signOut fonksiyonunu ekledik
+import { getAuth, onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
+import * as ImagePicker from "expo-image-picker";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import TabBar from "../components/TabBar";
 
 const Profile = ({ navigation }) => {
   const [userData, setUserData] = useState({
     username: "No Username",
     email: "No Email",
-    password: "********",
+    photoURL: null,
   });
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     const auth = getAuth();
@@ -19,26 +21,69 @@ const Profile = ({ navigation }) => {
         setUserData({
           username: user.displayName || "No Username",
           email: user.email || "No Email",
-          password: "********", // Şifre doğrudan alınamaz
+          photoURL: user.photoURL || null,
+          password: "********",
         });
       } else {
-        navigation.navigate("Login"); // Eğer kullanıcı oturum açmadıysa giriş ekranına yönlendirin
+        navigation.navigate("Login");
       }
     });
 
     return () => unsubscribe();
   }, [navigation]);
 
+  // Profil resmi seçme ve Firebase Storage'a yükleme
+  const handleUpdateProfilePicture = async () => {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      Alert.alert("Hata", "Profil resmini güncellemek için giriş yapmalısınız!");
+      return;
+    }
+
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        setIsUploading(true);
+
+        const storage = getStorage();
+        const imageRef = ref(storage, `profilePictures/${currentUser.uid}.jpg`);
+        const response = await fetch(result.assets[0].uri);
+        const blob = await response.blob();
+
+        // Firebase Storage'a yükleme
+        await uploadBytes(imageRef, blob);
+        const downloadUrl = await getDownloadURL(imageRef);
+
+        // Kullanıcı profilini güncelleme
+        await updateProfile(currentUser, { photoURL: downloadUrl });
+        setUserData((prev) => ({ ...prev, photoURL: downloadUrl }));
+
+        Alert.alert("Başarılı", "Profil resminiz güncellendi!");
+      }
+    } catch (error) {
+      console.error("Profil resmi güncellenirken hata:", error);
+      Alert.alert("Hata", "Profil resmini güncellerken bir sorun oluştu.");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   // Çıkış yapma fonksiyonu
   const handleSignOut = () => {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
-        // Oturum başarıyla kapatıldı, giriş ekranına yönlendirin
         navigation.navigate("Login");
       })
       .catch((error) => {
-        // Hata oluştu, kullanıcıya bildirin
         Alert.alert("Error", error.message);
       });
   };
@@ -58,8 +103,25 @@ const Profile = ({ navigation }) => {
 
       {/* Kullanıcı Bilgileri */}
       <View className="items-center mt-4">
-        <View className="bg-white p-3 rounded-full shadow-md">
-          <Ionicons name="person-circle-outline" size={80} color="#536F61" />
+        <View className="relative">
+          <TouchableOpacity className="bg-white p-3 rounded-full shadow-md">
+            {userData.photoURL ? (
+              <Image
+                source={{ uri: userData.photoURL }}
+                className="w-20 h-20 rounded-full"
+              />
+            ) : (
+              <Ionicons name="person-circle-outline" size={80} color="#536F61" />
+            )}
+          </TouchableOpacity>
+
+          {/* Edit Butonu */}
+          <TouchableOpacity
+            onPress={handleUpdateProfilePicture}
+            className="absolute bottom-0 right-0 bg-[#536F61] p-2 rounded-full shadow-md"
+          >
+            <Ionicons name="pencil-outline" size={16} color="#FFFFFF" />
+          </TouchableOpacity>
         </View>
         <Text className="text-lg font-semibold text-[#536F61] mt-4">
           {userData.username}
@@ -85,7 +147,6 @@ const Profile = ({ navigation }) => {
             className="text-sm text-[#536F61] flex-1 border-b border-gray-300"
           />
         </View>
-
         <View className="flex-row items-center mb-3">
           <Text className="text-sm text-[#536F61] w-1/3">Password</Text>
           <View className="flex-row items-center flex-1 border-b border-gray-300">
