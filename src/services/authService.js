@@ -11,6 +11,7 @@ export const registerWithEmailAndPassword = async (email, password, name) => {
     // Kullanıcının profilini güncelle
     await updateProfile(user, {
       displayName: name,
+      photoURL: photoURL,
     });
 
     return user;
