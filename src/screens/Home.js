@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, FlatList, Keyboard, Animated, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons"; // Bildirim ikonu için import
 import PopularDestinations from "../components/PopularDestinations";
 import ScheduleCard from "../components/ScheduleCard";
 import TabBar from "../components/TabBar";
@@ -7,7 +8,6 @@ import SearchBar from "../components/SearchBar";
 
 const Home = ({ navigation }) => {
   const tabBarOpacity = useRef(new Animated.Value(1)).current;
-  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () => {
@@ -49,12 +49,22 @@ const Home = ({ navigation }) => {
 
   return (
     <View className="flex-1 bg-[#F7F7F7]">
-      <View className="flex-1 px-5">
-        {/* Başlık */}
-        <Text className="text-4xl font-bold text-[#536F61] mt-24 mb-7 text-left">
+      {/* Başlık ve Bildirim İkonu */}
+      <View className="flex-row justify-between items-center px-5 mt-20">
+        <Text className="text-4xl font-bold text-[#536F61]">
           New Routes Await,{"\n"}Ready to Explore?
         </Text>
 
+        {/* Bildirim İkonu */}
+        <TouchableOpacity
+          className="bg-white p-2 rounded-full shadow-md"
+          onPress={() => console.log("Bildirim ikonu tıklandı!")}
+        >
+          <Ionicons name="notifications-outline" size={24} color="#536F61" />
+        </TouchableOpacity>
+      </View>
+
+      <View className="flex-1 px-5">
         {/* Arama */}
         <SearchBar
           placeholder="Where to go?"
