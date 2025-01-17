@@ -137,12 +137,7 @@ const destinations = [
         comments: 12845,
       },
     ],
-    foods: [
-      "Kebap",
-      "Simit",
-      "Baklava",
-      "Dolma",
-    ],
+    foods: ["Kebap", "Simit", "Baklava", "Dolma"],
     restaurants: [
       {
         id: "2",
@@ -162,6 +157,145 @@ const destinations = [
         id: "5",
         title: "Tarihi Yarımada'da yürüyüş",
         image: require("../../assets/images/tarihi_yarimada.jpeg"),
+      },
+    ],
+  },
+  {
+    id: 3,
+    name: "Muğla, Turkey",
+    image: require("../../assets/images/mugla.jpeg"), // Yeni görsel
+    description: "Muğla is a perfect blend of history and nature...",
+    museums: [
+      {
+        id: "6",
+        title: "Bodrum Deniz Müzesi",
+        image: require("../../assets/images/bodrum_deniz_muzesi.jpeg"),
+      },
+      {
+        id: "7",
+        title: "Knidos Antik Kenti",
+        image: require("../../assets/images/knidos_antik_kenti.jpeg"),
+      },
+    ],
+    natureHighlights: [
+      {
+        id: "1",
+        title: "Ölüdeniz",
+        image: require("../../assets/images/oludeniz.jpeg"),
+      },
+      {
+        id: "2",
+        title: "Saklıkent Kanyonu",
+        image: require("../../assets/images/saklikent_kanyonu.jpeg"),
+      },
+    ],
+    hotels: [
+      {
+        id: "5",
+        name: "Hilton Bodrum",
+        image: require("../../assets/images/hilton_bodrum.jpeg"),
+        rating: 4.9,
+        comments: 14236,
+      },
+    ],
+    foods: ["Çökertme Kebabı", "Sarıyer Böreği", "Lokum"],
+    restaurants: [
+      {
+        id: "3",
+        name: "Mekan Bodrum",
+        image: require("../../assets/images/mekan_bodrum.jpeg"),
+        rating: 4.6,
+        comments: 3201,
+      },
+      {
+        id: "4",
+        name: "Deniz Restaurant",
+        image: require("../../assets/images/deniz_restaurant.jpeg"),
+        rating: 4.8,
+        comments: 4215,
+      },
+    ],
+
+    activities: [
+      {
+        id: "5",
+        title: "Ölüdeniz'de paraşütle atlama",
+        image: require("../../assets/images/oludeniz_parasut.jpeg"),
+      },
+      {
+        id: "6",
+        title: "Datça sahillerinde dalış",
+        image: require("../../assets/images/datca_dalis.jpeg"),
+      },
+    ],
+  },
+
+  {
+    id: 4,
+    name: "İzmir, Turkey",
+    image: require("../../assets/images/izmir.jpg"), // İzmir için uygun bir görsel ekleyin
+    description:
+      "İzmir is a beautiful coastal city with rich history and culture...",
+    museums: [
+      {
+        id: "8",
+        title: "İzmir Arkeoloji Müzesi",
+        image: require("../../assets/images/izmir_arkeoloji_muzesi.jpeg"),
+      },
+      {
+        id: "9",
+        title: "Efes Antik Kenti",
+        image: require("../../assets/images/efes_antik_kenti.jpeg"),
+      },
+    ],
+    natureHighlights: [
+      {
+        id: "1",
+        title: "Çeşme Plajları",
+        image: require("../../assets/images/cesme_plajlari.jpeg"),
+      },
+      {
+        id: "2",
+        title: "Karagöl Tabiat Parkı",
+        image: require("../../assets/images/karagol_tabiat_parki.jpeg"),
+      },
+    ],
+    hotels: [
+      {
+        id: "6",
+        name: "Swissotel Büyük Efes",
+        image: require("../../assets/images/swissotel_buyuk_efes.jpeg"),
+        rating: 4.8,
+        comments: 11234,
+      },
+      {
+        id: "7",
+        name: "Hilton İzmir",
+        image: require("../../assets/images/hilton_izmir.jpeg"),
+        rating: 4.5,
+        comments: 9876,
+      },
+    ],
+    foods: ["Boyoz", "İzmir Kumrusu", "Lokma Tatlısı", "Midye Dolma"],
+    restaurants: [
+      {
+        id: "3",
+        name: "Tarihi Asansör Restoran",
+        image: require("../../assets/images/tarihi_asansor_restoran.jpeg"),
+        rating: 4.3,
+        comments: 14567,
+      },
+    ],
+    activities: [
+      {
+        id: "7",
+        title: "Kordon'da yürüyüş",
+        image: require("../../assets/images/kordon_yuruyus.jpeg"),
+      },
+      {
+        id: "8",
+        title: "Saat Kulesi'ni ziyaret",
+        image: require("../../assets/images/saat_kulesi.jpeg"),
       },
     ],
   },
