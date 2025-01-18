@@ -69,6 +69,15 @@ const Profile = ({ navigation }) => {
 
         // Kullanıcı profilini güncelleme
         await updateProfile(currentUser, { photoURL: downloadUrl });
+
+        // Firestore'daki kullanıcı belgesini güncelle
+        const userDocRef = doc(db, "users", currentUser.uid);
+        await updateDoc(userDocRef, {
+          photoURL: downloadUrl,
+          updatedAt: new Date().toISOString(),
+        });
+
+        // State'i güncelle
         setUserData((prev) => ({ ...prev, photoURL: downloadUrl }));
 
         Alert.alert("Başarılı", "Profil resminiz güncellendi!");
