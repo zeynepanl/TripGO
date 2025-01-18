@@ -4,6 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { getAuth, onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
 import * as ImagePicker from "expo-image-picker";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 import TabBar from "../components/TabBar";
 
 const Profile = ({ navigation }) => {
@@ -90,8 +92,18 @@ const Profile = ({ navigation }) => {
     }
 
     try {
-      await updateProfile(currentUser, { displayName: newUsername }); // Firebase'de kullanıcı adını güncelle
-      setUserData((prev) => ({ ...prev, username: newUsername })); // Yeni kullanıcı adını state'e kaydet
+      // Firebase Authentication'da kullanıcı adını güncelle
+      await updateProfile(currentUser, { displayName: newUsername });
+
+      // Firestore'daki kullanıcı belgesini güncelle
+      const userDocRef = doc(db, "users", currentUser.uid);
+      await updateDoc(userDocRef, {
+        displayName: newUsername,
+        updatedAt: new Date().toISOString(),
+      });
+
+      // State'i güncelle
+      setUserData((prev) => ({ ...prev, username: newUsername }));
       setIsEditingName(false); // Düzenleme modundan çık
       Alert.alert("Başarılı", "Kullanıcı adınız güncellendi!");
     } catch (error) {
