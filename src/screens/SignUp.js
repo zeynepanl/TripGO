@@ -8,14 +8,14 @@ import { registerWithEmailAndPassword } from "../services/authService";
 const SignUp = () => {
   const navigation = useNavigation();
 
-  const [name, setName] = useState(''); // Kullanıcı adı state'i
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isChecked, setIsChecked] = useState(false);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // Şifre görünürlüğü için state
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible); // Görünürlüğü tersine çevir
+    setIsPasswordVisible(!isPasswordVisible);
   };
 
   const handleSignUp = async () => {
@@ -30,7 +30,7 @@ const SignUp = () => {
     }
 
     try {
-      await registerWithEmailAndPassword(email, password, name); // `name` parametresini ekledik
+      await registerWithEmailAndPassword(email, password, name);
       Alert.alert("Success", "Account created successfully!");
       navigation.navigate("Login");
     } catch (error) {
@@ -40,7 +40,6 @@ const SignUp = () => {
 
   return (
     <View className="flex-1 bg-[#DAEAE2] items-center justify-end px-5 pb-10">
-      {/* Logo Section */}
       <View className="absolute top-36 flex-row items-center">
         <Image
           source={require('../../assets/icons/logo.png')}
@@ -50,14 +49,11 @@ const SignUp = () => {
         <Text className="text-4xl text-[#536F61] font-bold">TripGO</Text>
       </View>
 
-      {/* Form Section */}
       <View className="bg-white rounded-3xl px-12 py-20 w-full items-center shadow-md">
-        {/* Title */}
         <Text className="text-2xl text-[#536F61] font-medium mb-2 -ml-7 self-start">
           Create an Account
         </Text>
 
-        {/* Name Input */}
         <View className="flex-row items-center bg-gray-100 rounded-3xl px-4 my-3 w-[120%] h-16 shadow-xl">
           <TextInput
             placeholder="Your Name"
@@ -68,7 +64,6 @@ const SignUp = () => {
           />
         </View>
 
-        {/* Email Input */}
         <View className="flex-row items-center bg-gray-100 rounded-3xl px-4 my-3 w-[120%] h-16 shadow-xl">
           <TextInput
             placeholder="Email"
@@ -80,7 +75,6 @@ const SignUp = () => {
           />
         </View>
 
-        {/* Password Input */}
         <View className="flex-row items-center bg-gray-100 rounded-3xl px-4 my-3 w-[120%] h-16 shadow-xl">
           <TextInput
             placeholder="Password"
@@ -99,7 +93,6 @@ const SignUp = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Terms and Conditions */}
         <View className="flex-row items-center w-[120%] px-4 my-3">
           <TouchableOpacity
             onPress={() => setIsChecked(!isChecked)}
@@ -114,7 +107,6 @@ const SignUp = () => {
           </Text>
         </View>
 
-        {/* Sign Up Button */}
         <TouchableOpacity
           disabled={!isChecked}
           onPress={handleSignUp}
@@ -125,7 +117,6 @@ const SignUp = () => {
           <Text className="text-center text-lg font-bold text-[#536F61]">Sign Up</Text>
         </TouchableOpacity>
 
-        {/* Already Have an Account */}
         <View className="flex-row mt-4">
           <Text className="text-gray-600">Already have an account?</Text>
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>

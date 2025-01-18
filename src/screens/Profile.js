@@ -13,6 +13,8 @@ const Profile = ({ navigation }) => {
     photoURL: null,
   });
   const [isUploading, setIsUploading] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false); // Kullanıcı adı düzenleme durumu
+  const [newUsername, setNewUsername] = useState(""); // Yeni kullanıcı adı
 
   useEffect(() => {
     const auth = getAuth();
@@ -24,6 +26,7 @@ const Profile = ({ navigation }) => {
           photoURL: user.photoURL || null,
           password: "********",
         });
+        setNewUsername(user.displayName || ""); // Kullanıcı adını varsayılan olarak kaydet
       } else {
         navigation.navigate("Login");
       }
@@ -73,6 +76,27 @@ const Profile = ({ navigation }) => {
       Alert.alert("Hata", "Profil resmini güncellerken bir sorun oluştu.");
     } finally {
       setIsUploading(false);
+    }
+  };
+
+  // Kullanıcı adını güncelleme fonksiyonu
+  const handleUpdateUsername = async () => {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      Alert.alert("Hata", "Kullanıcı adını güncellemek için giriş yapmalısınız!");
+      return;
+    }
+
+    try {
+      await updateProfile(currentUser, { displayName: newUsername }); // Firebase'de kullanıcı adını güncelle
+      setUserData((prev) => ({ ...prev, username: newUsername })); // Yeni kullanıcı adını state'e kaydet
+      setIsEditingName(false); // Düzenleme modundan çık
+      Alert.alert("Başarılı", "Kullanıcı adınız güncellendi!");
+    } catch (error) {
+      console.error("Kullanıcı adı güncellenirken hata:", error);
+      Alert.alert("Hata", "Kullanıcı adınızı güncellerken bir sorun oluştu.");
     }
   };
 
@@ -132,11 +156,29 @@ const Profile = ({ navigation }) => {
       <View className="bg-white mt-8 mx-5 p-4 rounded-lg shadow-md">
         <View className="flex-row items-center mb-3">
           <Text className="text-sm text-[#536F61] w-1/3">User Name</Text>
-          <TextInput
-            editable={false}
-            value={userData.username}
-            className="text-sm text-[#536F61] flex-1 border-b border-gray-300"
-          />
+          {isEditingName ? (
+            <View className="flex-row items-center flex-1">
+              <TextInput
+                value={newUsername}
+                onChangeText={setNewUsername}
+                className="text-sm text-[#536F61] flex-1 border-b border-gray-300"
+              />
+              <TouchableOpacity onPress={handleUpdateUsername}>
+                <Ionicons name="checkmark-outline" size={20} color="#536F61" />
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View className="flex-row items-center flex-1">
+              <TextInput
+                editable={false}
+                value={userData.username}
+                className="text-sm text-[#536F61] flex-1 border-b border-gray-300"
+              />
+              <TouchableOpacity onPress={() => setIsEditingName(true)}>
+                <Ionicons name="pencil-outline" size={20} color="#536F61" />
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
 
         <View className="flex-row items-center mb-3">
