@@ -12,7 +12,7 @@ export const registerWithEmailAndPassword = async (email, password, name) => {
 
     // Firebase Authentication'da kullanıcının profil adını güncelle
     await updateProfile(user, {
-      displayName: name, // Kullanıcı adı
+      displayName: name,
     });
 
     // Kullanıcıyı Firestore'da "users" koleksiyonuna ekle
