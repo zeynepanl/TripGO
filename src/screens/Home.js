@@ -1,35 +1,52 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View, Text, FlatList, Keyboard, Animated, TouchableOpacity } from "react-native";
+// Home.js
+import React, { useRef, useState, useEffect, useContext } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  Keyboard,
+  Animated,
+  TouchableOpacity,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import PopularDestinations from "../components/PopularDestinations";
 import ScheduleCard from "../components/ScheduleCard";
 import TabBar from "../components/TabBar";
 import SearchBar from "../components/SearchBar";
 import { fetchMostCommentedCity } from "../services/notificationService";
+import { ScheduleContext } from "../context/ScheduleContext";
 
 const Home = ({ navigation }) => {
   const tabBarOpacity = useRef(new Animated.Value(1)).current;
+
   const [mostCommentedCity, setMostCommentedCity] = useState(null);
   const [showNotification, setShowNotification] = useState(true);
-  const [notifications, setNotifications] = useState([]); // Kapatılan bildirimleri tutar
+  const [notifications, setNotifications] = useState([]);
+
+  const { schedule } = useContext(ScheduleContext);
 
   useEffect(() => {
-    // Klavye animasyonu
-    const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () => {
-      Animated.timing(tabBarOpacity, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    });
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        Animated.timing(tabBarOpacity, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }).start();
+      }
+    );
 
-    const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", () => {
-      Animated.timing(tabBarOpacity, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    });
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        Animated.timing(tabBarOpacity, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }).start();
+      }
+    );
 
     return () => {
       keyboardDidShowListener.remove();
@@ -37,46 +54,30 @@ const Home = ({ navigation }) => {
     };
   }, []);
 
+  // En çok yorum alan şehri çekme
   useEffect(() => {
-    // En çok yorumu alan şehri getir
     const getMostCommentedCity = async () => {
       const city = await fetchMostCommentedCity();
-      setMostCommentedCity(city); // Şehri state'e kaydet
+      setMostCommentedCity(city);
     };
-
     getMostCommentedCity();
   }, []);
 
+  // Bildirim kapatma
   const handleDismissNotification = () => {
     if (mostCommentedCity) {
-      // Bildirimi kapattığında kaydet
       setNotifications((prev) => [
         ...prev,
         {
-          id: new Date().getTime(), // Benzersiz ID
+          id: new Date().getTime(),
           title: `Popular City: ${mostCommentedCity.cityName}`,
           description: `with ${mostCommentedCity.commentCount} comments!`,
-          dismissedAt: new Date().toISOString(), // Kapatılma zamanı
+          dismissedAt: new Date().toISOString(),
         },
       ]);
     }
-    setShowNotification(false); // Bildirimi gizle
+    setShowNotification(false);
   };
-
-  const schedule = [
-    {
-      id: 1,
-      title: "Efes Antik Kenti, İzmir",
-      image: require("../../assets/images/efes.jpeg"),
-      completed: true,
-    },
-    {
-      id: 2,
-      title: "Alaçatı, İzmir",
-      image: require("../../assets/images/alacati.jpeg"),
-      completed: false,
-    },
-  ];
 
   return (
     <View className="flex-1 bg-[#F7F7F7]">
@@ -90,7 +91,7 @@ const Home = ({ navigation }) => {
         <TouchableOpacity
           className="bg-white p-2 rounded-full shadow-md"
           onPress={() =>
-            navigation.navigate("Notifications", { notifications }) // Bildirimleri aktar
+            navigation.navigate("Notifications", { notifications })
           }
         >
           <Ionicons name="notifications-outline" size={24} color="#536F61" />
@@ -122,15 +123,17 @@ const Home = ({ navigation }) => {
 
         {/* Takvim */}
         <View className="mt-8">
-          <Text className="text-lg font-semibold text-[#2C2C2C] mb-3">My schedule</Text>
+          <Text className="text-lg font-semibold text-[#2C2C2C] mb-3">
+            My schedule
+          </Text>
           <FlatList
             data={schedule}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <ScheduleCard
                 title={item.title}
                 image={item.image}
-                completed={item.completed}
+                // completed gibi başka verileriniz varsa onları da item içinden alabilirsiniz
               />
             )}
           />
